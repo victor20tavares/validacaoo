@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validação de Atendimento By Arnaldo Vt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #1b2a45;
+            color: white;
+        }
+
+        .container {
+            background-color: #f1f1f1;
+            padding: 20px;
+            border-radius: 10px;
+            color: #333;
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            margin-right: 10px;
+        }
+
+        .tab.active {
+            background-color: #ffffff;
+            border-bottom: 1px solid #ffffff;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .custom-textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .custom-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .status {
+            margin-left: 10px;
+            font-weight: bold;
+            color: red;
+        }
+
+        .status.v {
+            color: green;
+        }
+
+        .status.x {
+            color: red;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #23395d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #1a2d4b;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        let originalValues = {};
+
+        // Salva os valores originais dos campos no carregamento da página
+        function saveOriginalValues(formId) {
+            const form = document.getElementById(formId);
+            const inputs = form.querySelectorAll('input');
+            originalscaras:1
+            originalValues[formId] = {};
+            inputs.forEach(input => {
+                originalValues[formId][input.name] = input.value;
+            });
+        }
+
+        // Função para limpar os campos
+        function limparCampos(formId) {
+            const form = document.getElementById(formId);
+            const inputs = form.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.value = originalValues[formId][input.name] || '';
+                updateStatus(input);
+            });
+        }
+
+        // Função para tornar a senha visível
+        function togglePasswordVisibility(formId) {
+            const form = document.getElementById(formId);
+            const passwordInput = form.querySelector('input[name="senha"]');
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        }
+
+        // Função para abrir abas
+        function openTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const tabLinks = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            tabLinks.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab[onclick="openTab('${tabId}')"]`).classList.add('active');
+        }
+
+        // Função para copiar dados
+        function copiarDados(formId) {
+            const form = document.getElementById(formId);
+            let dadosParaCopiar = '***** SEGUE A VALIDAÇÃO *****\n\n';
+
+            const protocolo = (form.protocolo.value || '').trim();
+            const cliente = (form.cliente.value || '').trim();
+            const instalacaoLacre = "OK";
+            const equipamentos = "OK";
+            const teste = "OK";
+            const TRATATIVA = (form.TRATATIVA.value || '').trim() || '-';
+            const sinalOnu = (form.sinal_onu.value || '').trim() || '-';
+            const acessoRoteador = (form.acesso_roteador.value || '').trim();
+            const senha = (form.senha.value || '').trim();
+            const patOnu = (form.pat_onu.value || '').trim();
+            const patRot = (form.pat_rot.value || '').trim();
+            const patRep = (form.pat_rep.value || '').trim();
+            const fotoAmpla = "SIM";
+            const patRetirados = (form.pat_retirados.value || '').trim();
+            const docGeogrid = "OK";
+            const identificacaoCto = (form.identificacao_cto.value || '').trim();
+            const porta = (form.porta.value || '').trim();
+            const sinalConectorExterno = "-";
+
+            dadosParaCopiar += `PROTOCOLO: ${protocolo}\n`;
+            dadosParaCopiar += `CLIENTE: ${cliente}\n`;
+            dadosParaCopiar += `INSTALAÇÃO E LACRE ONU: ${instalacaoLacre}\n`;
+            dadosParaCopiar += `TESTE: ${teste}\n`;
+            dadosParaCopiar += `TRATATIVA: ${TRATATIVA}\n`;
+            dadosParaCopiar += `SINAL - ONU: ${sinalOnu}\n\n`;
+            dadosParaCopiar += `ACESSO AO ROTEADOR: ${acessoRoteador}\n`;
+            dadosParaCopiar += `SENHA: ${senha}\n\n`;
+            dadosParaCopiar += `PAT. ONU: ${patOnu}\n`;
+            dadosParaCopiar += `PAT. ROT: ${patRot}\n`;
+            dadosParaCopiar += `PAT. REP: ${patRep}\n`;
+            dadosParaCopiar += `FOTO AMPLA: ${fotoAmpla}\n`;
+            dadosParaCopiar += `PAT. RETIRADOS: ${patRetirados}\n`;
+            dadosParaCopiar += `DOCUMENTAÇÃO GEOGRID: ${docGeogrid}\n\n`;
+            dadosParaCopiar += `IDENTIFICAÇÃO CTO: ${identificacaoCto}\n`;
+            dadosParaCopiar += `PORTA: ${porta}\n`;
+
+            navigator.clipboard.writeText(dadosParaCopiar)
+                .then(() => alert('Dados copiados para a área de transferência!'))
+                .catch(err => console.error('Erro ao copiar os dados: ', err));
+        }
+
+        // Função para atualizar status e remover espaços do campo de senha
+        function updateStatus(input) {
+            if (input.name === "senha") {
+                input.value = input.value.replace(/\s/g, ''); // Remove espaços
+            }
+            const statusElement = input.nextElementSibling;
+            if (input.value.trim() === "") {
+                statusElement.textContent = "X";
+                statusElement.classList.remove("v");
+                statusElement.classList.add("x");
+            } else {
+                statusElement.textContent = "V";
+                statusElement.classList.remove("x");
+                statusElement.classList.add("v");
+            }
+        }
+
+        // Inicializa status e valores
+        function initializeStatusAndValues(formId) {
+            const inputs = document.querySelectorAll(`#${formId} input[type="text"], #${formId} input[type="password"]`);
+            inputs.forEach(input => {
+                updateStatus(input);
+            });
+            saveOriginalValues(formId);
+        }
+
+        window.onload = function() {
+            initializeStatusAndValues('atendimento1');
+            initializeStatusAndValues('atendimento2');
+            initializeStatusAndValues('atendimento3');
+            initializeStatusAndValues('atendimento4');
+            openTab('tab1'); // Abre a primeira aba por padrão
+        };
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="tab-container">
+        <div class="tab active" onclick="openTab('tab1')">Atendimento 1</div>
+        <div class="tab" onclick="openTab('tab2')">Atendimento 2</div>
+        <div class="tab" onclick="openTab('tab3')">Atendimento 3</div>
+        <div class="tab" onclick="openTab('tab4')">Atendimento 4</div>
+    </div>
+    <div class="content">
+        <textarea class="custom-textarea" id="text-custom" placeholder="Digite seu texto aqui...">@1D_digitalnet
+l1gn3tAP1412
+multipro
+@1D_arnaldo</textarea>
+    </div>
+    <!-- Conteúdo da aba Atendimento 1 -->
+    <div id="tab1" class="tab-content active">
+        <h2>Validação de Atendimento 1</h2>
+        <form id="atendimento1">
+            <div class="form-group">
+                <label>PROTOCOLO:</label>
+                <input type="text" name="protocolo" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>CLIENTE:</label>
+                <input type="text" name="cliente" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>TRATATIVA:</label>
+                <input type="text" name="TRATATIVA" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>SINAL - ONU:</label>
+                <input type="text" name="sinal_onu" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>ACESSO AO ROTEADOR:</label>
+                <input type="text" name="acesso_roteador" value="multipro" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>SENHA:</label>
+                <input type="password" name="senha" value="@1D_" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. ONU:</label>
+                <input type="text" name="pat_onu" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. ROT:</label>
+                <input type="text" name="pat_rot" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. REP:</label>
+                <input type="text" name="pat_rep" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. RETIRADOS:</label>
+                <input type="text" name="pat_retirados" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>IDENTIFICAÇÃO CTO:</label>
+                <input type="text" name="identificacao_cto" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PORTA:</label>
+                <input type="text" name="porta" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="copiarDados('atendimento1')">Copiar Dados</button>
+                <button type="button" onclick="limparCampos('atendimento1')">Limpar Campos</button>
+                <button type="button" onclick="togglePasswordVisibility('atendimento1')">Mostrar/Ocultar Senha</button>
+            </div>
+        </form>
+    </div>
+    <!-- Conteúdo da aba Atendimento 2 -->
+    <div id="tab2" class="tab-content">
+        <h2>Validação de Atendimento 2</h2>
+        <form id="atendimento2">
+            <div class="form-group">
+                <label>PROTOCOLO:</label>
+                <input type="text" name="protocolo" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>CLIENTE:</label>
+                <input type="text" name="cliente" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>TRATATIVA:</label>
+                <input type="text" name="TRATATIVA" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>SINAL - ONU:</label>
+                <input type="text" name="sinal_onu" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>ACESSO AO ROTEADOR:</label>
+                <input type="text" name="acesso_roteador" value="multipro" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>SENHA:</label>
+                <input type="password" name="senha" value="@1D_" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. ONU:</label>
+                <input type="text" name="pat_onu" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. ROT:</label>
+                <input type="text" name="pat_rot" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. REP:</label>
+                <input type="text" name="pat_rep" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. RETIRADOS:</label>
+                <input type="text" name="pat_retirados" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>IDENTIFICAÇÃO CTO:</label>
+                <input type="text" name="identificacao_cto" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PORTA:</label>
+                <input type="text" name="porta" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="copiarDados('atendimento2')">Copiar Dados</button>
+                <button type="button" onclick="limparCampos('atendimento2')">Limpar Campos</button>
+                <button type="button" onclick="togglePasswordVisibility('atendimento2')">Mostrar/Ocultar Senha</button>
+            </div>
+        </form>
+    </div>
+    <!-- Conteúdo da aba Atendimento 3 -->
+    <div id="tab3" class="tab-content">
+        <h2>Validação de Atendimento 3</h2>
+        <form id="atendimento3">
+            <div class="form-group">
+                <label>PROTOCOLO:</label>
+                <input type="text" name="protocolo" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>CLIENTE:</label>
+                <input type="text" name="cliente" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>TRATATIVA:</label>
+                <input type="text" name="TRATATIVA" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>SINAL - ONU:</label>
+                <input type="text" name="sinal_onu" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>ACESSO AO ROTEADOR:</label>
+                <input type="text" name="acesso_roteador" value="multipro" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>SENHA:</label>
+                <input type="password" name="senha" value="@1D_" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. ONU:</label>
+                <input type="text" name="pat_onu" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. ROT:</label>
+                <input type="text" name="pat_rot" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. REP:</label>
+                <input type="text" name="pat_rep" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. RETIRADOS:</label>
+                <input type="text" name="pat_retirados" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>IDENTIFICAÇÃO CTO:</label>
+                <input type="text" name="identificacao_cto" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PORTA:</label>
+                <input type="text" name="porta" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="copiarDados('atendimento3')">Copiar Dados</button>
+                <button type="button" onclick="limparCampos('atendimento3')">Limpar Campos</button>
+                <button type="button" onclick="togglePasswordVisibility('atendimento3')">Mostrar/Ocultar Senha</button>
+            </div>
+        </form>
+    </div>
+    <!-- Conteúdo da aba Atendimento 4 -->
+    <div id="tab4" class="tab-content">
+        <h2>Validação de Atendimento 4</h2>
+        <form id="atendimento4">
+            <div class="form-group">
+                <label>PROTOCOLO:</label>
+                <input type="text" name="protocolo" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>CLIENTE:</label>
+                <input type="text" name="cliente" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>TRATATIVA:</label>
+                <input type="text" name="TRATATIVA" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>SINAL - ONU:</label>
+                <input type="text" name="sinal_onu" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>ACESSO AO ROTEADOR:</label>
+                <input type="text" name="acesso_roteador" value="multipro" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>SENHA:</label>
+                <input type="password" name="senha" value="@1D_" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. ONU:</label>
+                <input type="text" name="pat_onu" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. ROT:</label>
+                <input type="text" name="pat_rot" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. REP:</label>
+                <input type="text" name="pat_rep" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PAT. RETIRADOS:</label>
+                <input type="text" name="pat_retirados" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>IDENTIFICAÇÃO CTO:</label>
+                <input type="text" name="identificacao_cto" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PORTA:</label>
+                <input type="text" name="porta" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="copiarDados('atendimento4')">Copiar Dados</button>
+                <button type="button" onclick="limparCampos('atendimento4')">Limpar Campos</button>
+                <button type="button" onclick="togglePasswordVisibility('atendimento4')">Mostrar/Ocultar Senha</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
