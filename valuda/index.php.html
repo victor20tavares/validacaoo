@@ -121,7 +121,6 @@
         function saveOriginalValues(formId) {
             const form = document.getElementById(formId);
             const inputs = form.querySelectorAll('input');
-            originalscaras:1
             originalValues[formId] = {};
             inputs.forEach(input => {
                 originalValues[formId][input.name] = input.value;
@@ -162,39 +161,42 @@
 
             const protocolo = (form.protocolo.value || '').trim();
             const cliente = (form.cliente.value || '').trim();
+            const codigo = (form.codigo.value || '').trim();
+            const tecnico = (form.tecnico.value || '').trim();
+            const tipo = (form.tipo.value || '').trim();
+            const responsavel = "Jamille";
             const instalacaoLacre = "OK";
-            const equipamentos = "OK";
-            const teste = "OK";
-            const TRATATIVA = (form.TRATATIVA.value || '').trim() || '-';
             const sinalOnu = (form.sinal_onu.value || '').trim() || '-';
-            const acessoRoteador = (form.acesso_roteador.value || '').trim();
-            const senha = (form.senha.value || '').trim();
-            const patOnu = (form.pat_onu.value || '').trim();
-            const patRot = (form.pat_rot.value || '').trim();
-            const patRep = (form.pat_rep.value || '').trim();
-            const fotoAmpla = "SIM";
-            const patRetirados = (form.pat_retirados.value || '').trim();
-            const docGeogrid = "OK";
-            const identificacaoCto = (form.identificacao_cto.value || '').trim();
+            const cto = (form.cto.value || '').trim();
             const porta = (form.porta.value || '').trim();
-            const sinalConectorExterno = "-";
+            const ctoFechada = "OK";
+            const codigoConector = "OK";
+            const docGeogrid = "OK";
+            const acessoRemoto = "OK";
+            const senha = (form.senha.value || '').trim() || '@1D_';
+            const onu = (form.onu.value || '').trim();
+            const roteador = (form.roteador.value || '').trim();
+            const testes = "OK";
 
             dadosParaCopiar += `PROTOCOLO: ${protocolo}\n`;
             dadosParaCopiar += `CLIENTE: ${cliente}\n`;
+            dadosParaCopiar += `CÓDIGO: ${codigo}\n`;
+            dadosParaCopiar += `TÉCNICO: ${tecnico}\n`;
+            dadosParaCopiar += `TIPO: ${tipo}\n`;
+            dadosParaCopiar += `RESPONSÁVEL: ${responsavel}\n\n`;
             dadosParaCopiar += `INSTALAÇÃO E LACRE ONU: ${instalacaoLacre}\n`;
-            dadosParaCopiar += `TESTE: ${teste}\n`;
-            dadosParaCopiar += `TRATATIVA: ${TRATATIVA}\n`;
-            dadosParaCopiar += `SINAL - ONU: ${sinalOnu}\n\n`;
-            dadosParaCopiar += `ACESSO AO ROTEADOR: ${acessoRoteador}\n`;
-            dadosParaCopiar += `SENHA: ${senha}\n\n`;
-            dadosParaCopiar += `PAT. ONU: ${patOnu}\n`;
-            dadosParaCopiar += `PAT. ROT: ${patRot}\n`;
-            dadosParaCopiar += `PAT. REP: ${patRep}\n`;
-            dadosParaCopiar += `FOTO AMPLA: ${fotoAmpla}\n`;
-            dadosParaCopiar += `PAT. RETIRADOS: ${patRetirados}\n`;
-            dadosParaCopiar += `DOCUMENTAÇÃO GEOGRID: ${docGeogrid}\n\n`;
-            dadosParaCopiar += `IDENTIFICAÇÃO CTO: ${identificacaoCto}\n`;
+            dadosParaCopiar += `SINAL ONU: ${sinalOnu}\n`;
+            dadosParaCopiar += `CTO: ${cto}\n`;
             dadosParaCopiar += `PORTA: ${porta}\n`;
+            dadosParaCopiar += `CTO FECHADA: ${ctoFechada}\n`;
+            dadosParaCopiar += `CÓDIGO CONECTOR: ${codigoConector}\n`;
+            dadosParaCopiar += `DOCUMENTAÇÃO GEOGRID: ${docGeogrid}\n`;
+            dadosParaCopiar += `ACESSO REMOTO: ${acessoRemoto}\n`;
+            dadosParaCopiar += `SENHA: ${senha}\n`;
+            dadosParaCopiar += `EQUIPAMENTOS\n`;
+            dadosParaCopiar += `ONU: ${onu}\n`;
+            dadosParaCopiar += `ROTEADOR: ${roteador}\n`;
+            dadosParaCopiar += `TESTES: ${testes}\n`;
 
             navigator.clipboard.writeText(dadosParaCopiar)
                 .then(() => alert('Dados copiados para a área de transferência!'))
@@ -265,19 +267,59 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>TRATATIVA:</label>
-                <input type="text" name="TRATATIVA" oninput="updateStatus(this)">
+                <label>CÓDIGO:</label>
+                <input type="text" name="codigo" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>SINAL - ONU:</label>
+                <label>TÉCNICO:</label>
+                <input type="text" name="tecnico" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>TIPO:</label>
+                <input type="text" name="tipo" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>INSTALAÇÃO E LACRE ONU:</label>
+                <input type="text" name="instalacao_lacre" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>SINAL ONU:</label>
                 <input type="text" name="sinal_onu" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>ACESSO AO ROTEADOR:</label>
-                <input type="text" name="acesso_roteador" value="multipro" oninput="updateStatus(this)">
+                <label>CTO:</label>
+                <input type="text" name="cto" oninput="updateStatus(this)">
                 <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PORTA:</label>
+                <input type="text" name="porta" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>CTO FECHADA:</label>
+                <input type="text" name="cto_fechada" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>CÓDIGO CONECTOR:</label>
+                <input type="text" name="codigo_conector" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>DOCUMENTAÇÃO GEOGRID:</label>
+                <input type="text" name="doc_geogrid" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>ACESSO REMOTO:</label>
+                <input type="text" name="acesso_remoto" value="OK" readonly>
+                <span class="status v">V</span>
             </div>
             <div class="form-group">
                 <label>SENHA:</label>
@@ -285,34 +327,19 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. ONU:</label>
-                <input type="text" name="pat_onu" oninput="updateStatus(this)">
+                <label>ONU:</label>
+                <input type="text" name="onu" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. ROT:</label>
-                <input type="text" name="pat_rot" oninput="updateStatus(this)">
+                <label>ROTEADOR:</label>
+                <input type="text" name="roteador" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. REP:</label>
-                <input type="text" name="pat_rep" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>PAT. RETIRADOS:</label>
-                <input type="text" name="pat_retirados" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>IDENTIFICAÇÃO CTO:</label>
-                <input type="text" name="identificacao_cto" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>PORTA:</label>
-                <input type="text" name="porta" oninput="updateStatus(this)">
-                <span class="status x"></span>
+                <label>TESTES:</label>
+                <input type="text" name="testes" value="OK" readonly>
+                <span class="status v">V</span>
             </div>
             <div class="button-container">
                 <button type="button" onclick="copiarDados('atendimento1')">Copiar Dados</button>
@@ -336,19 +363,59 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>TRATATIVA:</label>
-                <input type="text" name="TRATATIVA" oninput="updateStatus(this)">
+                <label>CÓDIGO:</label>
+                <input type="text" name="codigo" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>SINAL - ONU:</label>
+                <label>TÉCNICO:</label>
+                <input type="text" name="tecnico" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>TIPO:</label>
+                <input type="text" name="tipo" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>INSTALAÇÃO E LACRE ONU:</label>
+                <input type="text" name="instalacao_lacre" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>SINAL ONU:</label>
                 <input type="text" name="sinal_onu" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>ACESSO AO ROTEADOR:</label>
-                <input type="text" name="acesso_roteador" value="multipro" oninput="updateStatus(this)">
+                <label>CTO:</label>
+                <input type="text" name="cto" oninput="updateStatus(this)">
                 <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PORTA:</label>
+                <input type="text" name="porta" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>CTO FECHADA:</label>
+                <input type="text" name="cto_fechada" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>CÓDIGO CONECTOR:</label>
+                <input type="text" name="codigo_conector" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>DOCUMENTAÇÃO GEOGRID:</label>
+                <input type="text" name="doc_geogrid" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>ACESSO REMOTO:</label>
+                <input type="text" name="acesso_remoto" value="OK" readonly>
+                <span class="status v">V</span>
             </div>
             <div class="form-group">
                 <label>SENHA:</label>
@@ -356,34 +423,19 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. ONU:</label>
-                <input type="text" name="pat_onu" oninput="updateStatus(this)">
+                <label>ONU:</label>
+                <input type="text" name="onu" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. ROT:</label>
-                <input type="text" name="pat_rot" oninput="updateStatus(this)">
+                <label>ROTEADOR:</label>
+                <input type="text" name="roteador" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. REP:</label>
-                <input type="text" name="pat_rep" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>PAT. RETIRADOS:</label>
-                <input type="text" name="pat_retirados" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>IDENTIFICAÇÃO CTO:</label>
-                <input type="text" name="identificacao_cto" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>PORTA:</label>
-                <input type="text" name="porta" oninput="updateStatus(this)">
-                <span class="status x"></span>
+                <label>TESTES:</label>
+                <input type="text" name="testes" value="OK" readonly>
+                <span class="status v">V</span>
             </div>
             <div class="button-container">
                 <button type="button" onclick="copiarDados('atendimento2')">Copiar Dados</button>
@@ -407,19 +459,59 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>TRATATIVA:</label>
-                <input type="text" name="TRATATIVA" oninput="updateStatus(this)">
+                <label>CÓDIGO:</label>
+                <input type="text" name="codigo" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>SINAL - ONU:</label>
+                <label>TÉCNICO:</label>
+                <input type="text" name="tecnico" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>TIPO:</label>
+                <input type="text" name="tipo" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>INSTALAÇÃO E LACRE ONU:</label>
+                <input type="text" name="instalacao_lacre" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>SINAL ONU:</label>
                 <input type="text" name="sinal_onu" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>ACESSO AO ROTEADOR:</label>
-                <input type="text" name="acesso_roteador" value="multipro" oninput="updateStatus(this)">
+                <label>CTO:</label>
+                <input type="text" name="cto" oninput="updateStatus(this)">
                 <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PORTA:</label>
+                <input type="text" name="porta" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>CTO FECHADA:</label>
+                <input type="text" name="cto_fechada" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>CÓDIGO CONECTOR:</label>
+                <input type="text" name="codigo_conector" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>DOCUMENTAÇÃO GEOGRID:</label>
+                <input type="text" name="doc_geogrid" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>ACESSO REMOTO:</label>
+                <input type="text" name="acesso_remoto" value="OK" readonly>
+                <span class="status v">V</span>
             </div>
             <div class="form-group">
                 <label>SENHA:</label>
@@ -427,34 +519,19 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. ONU:</label>
-                <input type="text" name="pat_onu" oninput="updateStatus(this)">
+                <label>ONU:</label>
+                <input type="text" name="onu" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. ROT:</label>
-                <input type="text" name="pat_rot" oninput="updateStatus(this)">
+                <label>ROTEADOR:</label>
+                <input type="text" name="roteador" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. REP:</label>
-                <input type="text" name="pat_rep" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>PAT. RETIRADOS:</label>
-                <input type="text" name="pat_retirados" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>IDENTIFICAÇÃO CTO:</label>
-                <input type="text" name="identificacao_cto" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>PORTA:</label>
-                <input type="text" name="porta" oninput="updateStatus(this)">
-                <span class="status x"></span>
+                <label>TESTES:</label>
+                <input type="text" name="testes" value="OK" readonly>
+                <span class="status v">V</span>
             </div>
             <div class="button-container">
                 <button type="button" onclick="copiarDados('atendimento3')">Copiar Dados</button>
@@ -478,19 +555,59 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>TRATATIVA:</label>
-                <input type="text" name="TRATATIVA" oninput="updateStatus(this)">
+                <label>CÓDIGO:</label>
+                <input type="text" name="codigo" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>SINAL - ONU:</label>
+                <label>TÉCNICO:</label>
+                <input type="text" name="tecnico" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>TIPO:</label>
+                <input type="text" name="tipo" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>INSTALAÇÃO E LACRE ONU:</label>
+                <input type="text" name="instalacao_lacre" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>SINAL ONU:</label>
                 <input type="text" name="sinal_onu" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>ACESSO AO ROTEADOR:</label>
-                <input type="text" name="acesso_roteador" value="multipro" oninput="updateStatus(this)">
+                <label>CTO:</label>
+                <input type="text" name="cto" oninput="updateStatus(this)">
                 <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>PORTA:</label>
+                <input type="text" name="porta" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>CTO FECHADA:</label>
+                <input type="text" name="cto_fechada" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>CÓDIGO CONECTOR:</label>
+                <input type="text" name="codigo_conector" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>DOCUMENTAÇÃO GEOGRID:</label>
+                <input type="text" name="doc_geogrid" value="OK" readonly>
+                <span class="status v">V</span>
+            </div>
+            <div class="form-group">
+                <label>ACESSO REMOTO:</label>
+                <input type="text" name="acesso_remoto" value="OK" readonly>
+                <span class="status v">V</span>
             </div>
             <div class="form-group">
                 <label>SENHA:</label>
@@ -498,34 +615,19 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. ONU:</label>
-                <input type="text" name="pat_onu" oninput="updateStatus(this)">
+                <label>ONU:</label>
+                <input type="text" name="onu" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. ROT:</label>
-                <input type="text" name="pat_rot" oninput="updateStatus(this)">
+                <label>ROTEADOR:</label>
+                <input type="text" name="roteador" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
-                <label>PAT. REP:</label>
-                <input type="text" name="pat_rep" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>PAT. RETIRADOS:</label>
-                <input type="text" name="pat_retirados" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>IDENTIFICAÇÃO CTO:</label>
-                <input type="text" name="identificacao_cto" oninput="updateStatus(this)">
-                <span class="status x"></span>
-            </div>
-            <div class="form-group">
-                <label>PORTA:</label>
-                <input type="text" name="porta" oninput="updateStatus(this)">
-                <span class="status x"></span>
+                <label>TESTES:</label>
+                <input type="text" name="testes" value="OK" readonly>
+                <span class="status v">V</span>
             </div>
             <div class="button-container">
                 <button type="button" onclick="copiarDados('atendimento4')">Copiar Dados</button>
