@@ -157,34 +157,6 @@
     <script>
         let originalValues = {};
         let counter = 0;
-        let isNightMode = false;
-
-        // Verificar hora atual para definir modo inicial
-        const currentHour = new Date().getHours();
-        if (currentHour >= 18 || currentHour < 6) {
-            isNightMode = true;
-            updateGreeting(true);
-            updateThemeButton(true);
-        }
-
-        function toggleTheme() {
-            isNightMode = !isNightMode;
-            updateGreeting(isNightMode);
-            updateThemeButton(isNightMode);
-        }
-
-        function updateThemeButton(isNightMode) {
-            const themeButton = document.getElementById("theme-toggle");
-            themeButton.textContent = isNightMode ? "☀️" : "🌙";
-        }
-
-        function updateGreeting(isNightMode) {
-            const textArea = document.getElementById("text-custom");
-            const greeting = isNightMode
-                ? "Olá, boa noite!\n\nEspero que esteja tudo bem com você. Meu nome é Arnaldo Victor, e estou aqui para oferecer todo o suporte necessário para facilitar o atendimento.\n\nPara garantir uma experiência eficiente e de qualidade, preciso fazer algumas perguntas rápidas:"
-                : "Olá, boa tarde!\n\nEspero que esteja tudo bem com você. Meu nome é Arnaldo Victor, e estou aqui para oferecer todo o suporte necessário para facilitar o atendimento.\n\nPara garantir uma experiência eficiente e de qualidade, preciso fazer algumas perguntas rápidas:";
-            textArea.value = greeting + "\n\n" + textArea.value.split("\n\n").slice(1).join("\n\n");
-        }
 
         function increaseCounter() {
             counter++;
@@ -330,7 +302,6 @@
         <h1>Atendimentos: <span id="counter">0</span></h1>
         <div>
             <button onclick="increaseCounter()">Atendimento</button>
-            <button id="theme-toggle" onclick="toggleTheme()">☀️</button>
         </div>
         <img id="rocket" class="rocket" src="https://img.icons8.com/ios/50/ffffff/rocket.png" alt="Foguete">
     </div>
@@ -472,7 +443,7 @@ multipro
             <div class="form-group">
                 <label>CÓDIGO:</label>
                 <input type="text" name="codigo" oninput="updateStatus(this)">
-                <span class="status x"></span>
+                <spanuri class="status x"></span>
             </div>
             <div class="form-group">
                 <label>TÉCNICO:</label>
