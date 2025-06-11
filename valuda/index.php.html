@@ -231,6 +231,7 @@
             const senha = (form.senha.value || '').trim() || '@1D_';
             const onu = (form.onu.value || '').trim();
             const roteador = (form.roteador.value || '').trim();
+            const repetidor = (form.repetidor.value || '').trim();
             const testes = "OK";
 
             dadosParaCopiar += `PROTOCOLO: ${protocolo}\n`;
@@ -251,6 +252,7 @@
             dadosParaCopiar += `EQUIPAMENTOS\n`;
             dadosParaCopiar += `ONU: ${onu}\n`;
             dadosParaCopiar += `ROTEADOR: ${roteador}\n`;
+            dadosParaCopiar += `REPETIDOR: ${repetidor}\n`;
             dadosParaCopiar += `TESTES: ${testes}\n`;
 
             navigator.clipboard.writeText(dadosParaCopiar)
@@ -415,6 +417,11 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
+                <label>REPETIDOR:</label>
+                <input type="text" name="repetidor" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
                 <label>TESTES:</label>
                 <input type="text" name="testes" value="OK" readonly>
                 <span class="status v">V</span>
@@ -443,7 +450,7 @@ multipro
             <div class="form-group">
                 <label>CÓDIGO:</label>
                 <input type="text" name="codigo" oninput="updateStatus(this)">
-                <spanuri class="status x"></span>
+                <span class="status x"></span>
             </div>
             <div class="form-group">
                 <label>TÉCNICO:</label>
@@ -508,6 +515,11 @@ multipro
             <div class="form-group">
                 <label>ROTEADOR:</label>
                 <input type="text" name="roteador" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>REPETIDOR:</label>
+                <input type="text" name="repetidor" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
@@ -607,6 +619,11 @@ multipro
                 <span class="status x"></span>
             </div>
             <div class="form-group">
+                <label>REPETIDOR:</label>
+                <input type="text" name="repetidor" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
                 <label>TESTES:</label>
                 <input type="text" name="testes" value="OK" readonly>
                 <span class="status v">V</span>
@@ -700,6 +717,11 @@ multipro
             <div class="form-group">
                 <label>ROTEADOR:</label>
                 <input type="text" name="roteador" oninput="updateStatus(this)">
+                <span class="status x"></span>
+            </div>
+            <div class="form-group">
+                <label>REPETIDOR:</label>
+                <input type="text" name="repetidor" oninput="updateStatus(this)">
                 <span class="status x"></span>
             </div>
             <div class="form-group">
