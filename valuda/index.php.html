@@ -252,7 +252,7 @@
             dadosParaCopiar += `EQUIPAMENTOS\n`;
             dadosParaCopiar += `ONU: ${onu}\n`;
             dadosParaCopiar += `ROTEADOR: ${roteador}\n`;
-            dadosParaCopiar += `REPETIDOR: ${repetidor}\n`;
+            dadosParaCopiar += `REPETIDOR: ${repetidor || '-'}\n`;
             dadosParaCopiar += `TESTES: ${testes}\n`;
 
             navigator.clipboard.writeText(dadosParaCopiar)
