@@ -153,6 +153,10 @@
             justify-content: flex-end;
             margin-top: 20px;
         }
+
+        .form-container {
+            margin-bottom: 20px;
+        }
     </style>
     <script>
         let originalValues = {};
@@ -201,15 +205,17 @@
 
         // Função para abrir abas
         function openTab(tabId) {
-            const tabs = document.querySelectorAll('.tab-content');
-            const tabLinks = document.querySelectorAll('.tab');
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+
             tabs.forEach(tab => tab.classList.remove('active'));
-            tabLinks.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
             document.getElementById(tabId).classList.add('active');
             document.querySelector(`.tab[onclick="openTab('${tabId}')"]`).classList.add('active');
         }
 
-        // Função para copiar dados
+        // Função para copiar dados do atendimento
         function copiarDados(formId) {
             const form = document.getElementById(formId);
             let dadosParaCopiar = '***** SEGUE A VALIDAÇÃO *****\n\n';
@@ -263,6 +269,35 @@
                 .catch(err => console.error('Erro ao copiar os dados: ', err));
         }
 
+        // Função para copiar dados da remoção de portas
+        function copyFormData(section) {
+            const codigo = document.getElementById(`codigo${section}`).value.trim();
+            const nomeCliente = document.getElementById(`nomeCliente${section}`).value.trim();
+            const antigoPonto = document.getElementById(`antigoPonto${section}`).value.trim();
+            const localizacaoCto = document.getElementById(`localizacaoCto${section}`).value.trim();
+
+            const text = `***** REMOÇÃO DE PORTA *****\n\n` +
+                         `Código: ${codigo || '-'}\n` +
+                         `Nome do Cliente: ${nomeCliente || '-'}\n` +
+                         `Antigo Ponto de Acesso: ${antigoPonto || '-'}\n` +
+                         `Localização CTO: ${localizacaoCto || '-'}\n`;
+
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    alert('Dados de remoção copiados para a área de transferência!');
+                    increaseCounter();
+                })
+                .catch(err => console.error('Erro ao copiar os dados: ', err));
+        }
+
+        // Função para limpar campos da remoção de portas
+        function clearFields(section) {
+            document.getElementById(`codigo${section}`).value = "";
+            document.getElementById(`nomeCliente${section}`).value = "";
+            document.getElementById(`antigoPonto${section}`).value = "";
+            document.getElementById(`localizacaoCto${section}`).value = "";
+        }
+
         // Função para atualizar status e remover espaços do campo de senha
         function updateStatus(input) {
             if (input.name === "senha") {
@@ -313,6 +348,7 @@
         <div class="tab" onclick="openTab('tab2')">Atendimento 2</div>
         <div class="tab" onclick="openTab('tab3')">Atendimento 3</div>
         <div class="tab" onclick="openTab('tab4')">Atendimento 4</div>
+        <div class="tab" onclick="openTab('tab5')">Remoção de Portas</div>
     </div>
     <div class="content">
         <textarea class="custom-textarea" id="text-custom" placeholder="Digite seu texto aqui...">Olá meu nome é Jamille, vou ser responsável pelo seu atendimento
@@ -735,6 +771,81 @@ multipro
                 <button type="button" onclick="togglePasswordVisibility('atendimento4')">Mostrar/Ocultar Senha</button>
             </div>
         </form>
+    </div>
+    <!-- Conteúdo da aba Remoção de Portas -->
+    <div id="tab5" class="tab-content">
+        <h2>Remoção de Portas</h2>
+        <h3>Remoção de Porta 1</h3>
+        <div class="form-container">
+            <div class="form-group">
+                <label for="codigo1">Código:</label>
+                <input type="text" id="codigo1">
+            </div>
+            <div class="form-group">
+                <label for="nomeCliente1">Nome do Cliente:</label>
+                <input type="text" id="nomeCliente1">
+            </div>
+            <div class="form-group">
+                <label for="antigoPonto1">Antigo Ponto de Acesso:</label>
+                <input type="text" id="antigoPonto1">
+            </div>
+            <div class="form-group">
+                <label for="localizacaoCto1">Localização CTO:</label>
+                <input type="text" id="localizacaoCto1">
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="copyFormData('1')">Copiar Dados</button>
+                <button type="button" onclick="clearFields('1')">Limpar Campos</button>
+            </div>
+        </div>
+
+        <h3>Remoção de Porta 2</h3>
+        <div class="form-container">
+            <div class="form-group">
+                <label for="codigo2">Código:</label>
+                <input type="text" id="codigo2">
+            </div>
+            <div class="form-group">
+                <label for="nomeCliente2">Nome do Cliente:</label>
+                <input type="text" id="nomeCliente2">
+            </div>
+            <div class="form-group">
+                <label for="antigoPonto2">Antigo Ponto de Acesso:</label>
+                <input type="text" id="antigoPonto2">
+            </div>
+            <div class="form-group">
+                <label for="localizacaoCto2">Localização CTO:</label>
+                <input type="text" id="localizacaoCto2">
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="copyFormData('2')">Copiar Dados</button>
+                <button type="button" onclick="clearFields('2')">Limpar Campos</button>
+            </div>
+        </div>
+
+        <h3>Remoção de Porta 3</h3>
+        <div class="form-container">
+            <div class="form-group">
+                <label for="codigo3">Código:</label>
+                <input type="text" id="codigo3">
+            </div>
+            <div class="form-group">
+                <label for="nomeCliente3">Nome do Cliente:</label>
+                <input type="text" id="nomeCliente3">
+            </div>
+            <div class="form-group">
+                <label for="antigoPonto3">Antigo Ponto de Acesso:</label>
+                <input type="text" id="antigoPonto3">
+            </div>
+            <div class="form-group">
+                <label for="localizacaoCto3">Localização CTO:</label>
+                <input type="text" id="localizacaoCto3">
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="copyFormData('3')">Copiar Dados</button>
+                <button type="button" onclick="clearFields('3')">Limpar Campos</button>
+            </div>
+        </div>
     </div>
 </div>
 </body>
